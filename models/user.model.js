@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/dashboard");
 
 var serverError = 500;
@@ -36,3 +36,20 @@ exports.getAllUsers = function (response) {
         response.json(users);
     });
 };
+
+exports.authenticateUser = function(userEmail, userPassword, callback) {
+    let errorObj = {
+        Message : "User does not exist or invalid credentials"
+    }
+    User.find({email: userEmail, password: userPassword}, function (error, result) {
+        if (error) {
+            callback(error)
+        } else {
+            if(result.length > 0 && result!= 'undefined') {
+                callback(result);
+            } else {
+                callback(errorObj)
+            }
+        }
+    })
+}

@@ -20,18 +20,18 @@ var app = express();
 
 // Central Router
 app.use(cors());
-var controller_index = require('./controllers/index.js');
+var controller_index = require("./controllers/index.js");
 
 // Central router
 app.use(bodyParser.json());
-app.use('/api', controller_index);
+app.use("/api", controller_index);
 
 // Server Startup
 app.listen(config.server.port, function(error) {
     if (error) {
         console.log("Error");
     }
-    console.log("API is Running on http:://localhost/8080");
+    console.log("API is Running on http:://localhost:8080");
 });
 
 module.exports = app;
