@@ -3,27 +3,24 @@ const router = express.Router();
 const Users = require("../models/user.model");
 
 //Get all users
-router.get("/", function (req, res) {
-    Users.getAllUsers(res);
+router.get("/", async (req, res) => {
+    let payload = await Users.getAllUsers();
+    console.log(payload)
+    res.send(payload)
 });
 
 //Add new user
-router.post("/", function (req, res) {
-    Users.addUser(req.body, res);
+router.post("/", async (req, res) => {
+    let payload = Users.addUser(req.body);
+    res.send(payload)
 });
 
-router.post("/login", function(req, res){
+router.post("/login", async(req, res) =>{
     let userEmail = req.body.email;
     let userPassword = req.body.password;
-    Users.authenticateUser(userEmail, userPassword, function(status, result) {
-        console.log(result);
-        if(status){
-            res.status(201).json(result);
-            console.log(result);
-        } else {
-            res.status(500).end();
-        }
-    })
+
+    let payload = await Users.authenticateUser(userEmail, userPassword);
+    console.log(payload)
 })
 
 module.exports = router;
